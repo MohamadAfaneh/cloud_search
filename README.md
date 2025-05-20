@@ -20,7 +20,7 @@ Note: No need to install Elasticsearch or Tesseract - Docker handles that.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone <https://github.com/MohamadAfaneh/cloud_search.git>
 cd cloud_search
 ```
 
@@ -32,6 +32,13 @@ DROPBOX_ACCESS_TOKEN=dropbox_token
 3. Start the containers:
 ```bash
 docker-compose up --build -d
+```
+
+Note : 
+before starting the containers Fix this Line Endings (Windows Users Only) :
+
+```bash
+dos2unix docker-entrypoint.sh
 ```
 
 4. Access the application:
