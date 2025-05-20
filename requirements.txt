@@ -1,0 +1,33 @@
+# FastAPI and server dependencies
+fastapi==0.104.1
+uvicorn==0.24.0
+python-dotenv==1.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+pyOpenSSL==23.3.0
+
+# Storage and file handling
+dropbox==11.36.2
+python-multipart==0.0.6
+aiofiles>=0.8.0
+
+# Elasticsearch
+elasticsearch==8.11.0
+elasticsearch-async>=6.2.0
+
+# OCR and document processing
+pytesseract==0.3.10
+Pillow==10.1.0
+python-magic>=0.4.27
+PyPDF2>=3.0.0
+PyMuPDF>=1.21.1
+python-docx>=0.8.11
+
+# Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# Additional dependencies
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.1 

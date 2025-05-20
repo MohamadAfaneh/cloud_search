@@ -1,0 +1,29 @@
+1.create_certs.py
+
+Prompt :
+
+Write a Python script that generates a self-signed SSL certificate along with a CA certificate using the OpenSSL (PyOpenSSL) library. The script should:
+
+Create a certs directory (if it doesn't exist)
+
+Generate a server.crt and server.key
+
+Also generate a ca.crt and ca.key
+
+Log the steps using the logging module
+
+Prompt the user before overwriting any existing certificate files
+
+Use 2048-bit RSA keys and set certificate validity to 1 year
+
+Save the output in the same directory as the script
+
+Wrap everything in a main() function and make it executable
+
+
+
+2. ./servies/ocr/ function : extract_text_from_png
+
+Prompt :
+
+Write an asynchronous Python function that extracts text from a PNG image using OCR. It should use pytesseract to perform the OCR 

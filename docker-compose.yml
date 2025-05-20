@@ -1,0 +1,50 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8443:8443" 
+    environment:
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - DROPBOX_ACCESS_TOKEN=${DROPBOX_ACCESS_TOKEN}
+      - TESSERACT_CMD=/usr/bin/tesseract
+      - SSL_KEYFILE=/app/certs/server.key
+      - SSL_CERTFILE=/app/certs/server.crt
+    volumes:
+      - app_downloads:/app/downloads
+      - app_data:/app/data
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:
+  app_downloads:
+    driver: local
+  app_data:
+    driver: local 
