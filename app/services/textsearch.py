@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, validator
 from elasticsearch import AsyncElasticsearch
 from elastic_transport import Transport
 import os
+import aiofiles
 import logging
 import fitz 
 import csv
@@ -163,6 +164,10 @@ class ElasticSearchService(Textsearch):
                     logger.error(f"Error extracting text from PDF {file_path}: {str(e)}")
                     raise Exception(f"PDF text extraction failed: {str(e)}")
             
+            elif ext == FileExtension.TXT:
+                async with aiofiles.open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    return await f.read()
+                
             elif ext == FileExtension.PNG:
                 try:
                     logger.info(f"Starting OCR on image: {file_path}")
