@@ -202,14 +202,36 @@ class ElasticSearchService(Textsearch):
         """
         try:
             search_body = {
-                "query": {"bool": { "should": [{"match": { "content": { "query": query,"operator": "and" } }},{"match": {"file_path": {"query": query, "operator": "and" } }}  ],  "minimum_should_match": 1 }  },
-                "highlight": {"fields": { "content": { "number_of_fragments": 3,"fragment_size": 150,"pre_tags": ["<mark>"],"post_tags": ["</mark>"] } }  },
-                "sort": [ {"_score": {"order": "desc"}},{"last_modified": {"order": "desc"}}] }
-                    
-            response = await self.client.search(index=self.index_name,body=search_body)
-            
+                "query": {
+                    "bool": {
+                        "should": [
+                            {"match": {"content": {"query": query, "operator": "and"}}},
+                            {"match": {"file_path": {"query": query, "operator": "and"}}},
+                            {"match": {"provider": {"query": query, "operator": "and"}}},
+                            {"match": {"extension": {"query": query, "operator": "and"}}},
+                            {"match": {"last_modified": {"query": query, "operator": "and"}}},
+                            {"match": {"size": {"query": query, "operator": "and"}}}
+                        ],
+                        "minimum_should_match": 1
+                    }
+                },
+                "highlight": {
+                    "fields": {
+                        "content": {
+                            "number_of_fragments": 3,
+                            "fragment_size": 150,
+                            "pre_tags": ["<mark>"],
+                            "post_tags": ["</mark>"]
+                        }
+                    }
+                },
+                "sort": [
+                    {"_score": {"order": "desc"}},
+                    {"last_modified": {"order": "desc"}}
+                ]
+            }
+            response = await self.client.search(index=self.index_name, body=search_body)
             total_hits = response["hits"]["total"]["value"]
-            
             results = []
             for hit in response["hits"]["hits"]:
                 try:
