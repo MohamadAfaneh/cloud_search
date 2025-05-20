@@ -208,17 +208,16 @@ class ElasticSearchService(Textsearch):
         try:
             search_body = {
                 "query": {
-                    "bool": {
-                        "should": [
-                            {"match": {"content": {"query": query, "operator": "and"}}},
-                            {"match": {"file_path": {"query": query, "operator": "and"}}},
-                            {"match": {"provider": {"query": query, "operator": "and"}}},
-                            {"match": {"extension": {"query": query, "operator": "and"}}},
-                            {"match": {"last_modified": {"query": query, "operator": "and"}}},
-                            {"match": {"size": {"query": query, "operator": "and"}}}
-                        ],
-                        "minimum_should_match": 1
-                    }
+                    "multi_match": {
+                        "query": query,
+                        "fields": [
+                        "content",
+                        "file_path",
+                        "provider",
+                        "extension"
+                    ],
+                        "operator": "and"
+                }
                 },
                 "highlight": {
                     "fields": {
